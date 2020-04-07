@@ -7,7 +7,7 @@ const asyncWrapper = require('../util/asyncWrapper');
 
 const TemplateModel = models.Template;
 
-const regexTemplateVariable = /(<!![\\._a-zA-Z]+!!>)/gm;
+const regexTemplateVariable = /(<!![\S]+!!>)/gm;
 
 function changeTemplateVariable(text, userData) {
   let copy = text;
