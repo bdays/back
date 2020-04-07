@@ -132,7 +132,7 @@ async function getAll(args = {}) {
 }
 
 async function getAllList() {
-  return getById({
+  return getAll({
     attributes: ['id', 'title'],
   });
 }
