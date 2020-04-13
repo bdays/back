@@ -10,9 +10,10 @@ const body = Joi.object({
     .rule({ message: '"{{#label}}" must be a valid userName ^[a-zA-Z0-9]$  len 1-256' })
     .required(),
   password: Joi.string()
-    .pattern(new RegExp('^[a-zA-Z0-9]{8,512}$'))
+    .min(8)
+    .max(512)
     .rule({
-      message: '"{{#label}}" must be a valid password ^[a-zA-Z0-9]$  len 8-512',
+      message: '"{{#label}}" must be a valid password len 8-512',
     })
     .required(),
 });
