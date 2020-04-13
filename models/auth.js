@@ -3,10 +3,11 @@ module.exports = (sequelize, DataTypes) => {
   const Auth = sequelize.define(
     'Auth',
     {
-      userName: DataTypes.STRING,
-      passwordHash: DataTypes.STRING,
-      salt: DataTypes.STRING,
+      userName: DataTypes.TEXT,
+      passwordHash: DataTypes.TEXT,
+      salt: DataTypes.TEXT,
       role: DataTypes.INTEGER,
+      sessionId: DataTypes.STRING(4),
     },
     {},
   );

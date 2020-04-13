@@ -42,6 +42,10 @@ class CustomError extends Error {
   notFound(str) {
     return getError('not found', str);
   }
+
+  incorrectUserNameOrPassword(str) {
+    return getError('incorrect user name or password', str);
+  }
 }
 
 module.exports = CustomError;

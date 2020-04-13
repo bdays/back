@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const Template = sequelize.define(
     'Template',
     {
-      title: DataTypes.STRING,
-      text: DataTypes.STRING,
+      title: DataTypes.TEXT,
+      text: DataTypes.TEXT,
       blocks: DataTypes.JSONB,
       attachments: DataTypes.JSONB,
     },

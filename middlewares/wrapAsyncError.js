@@ -9,6 +9,7 @@ const errorMessages = {
   [JSON.parse(new CustomError().timeout().message).type]: responseError.timeout,
   [JSON.parse(new CustomError().notModify().message).type]: responseError.notModify,
   [JSON.parse(new CustomError().notFound().message).type]: responseError.notFound,
+  [JSON.parse(new CustomError().incorrectUserNameOrPassword().message).type]: responseError.incorrectUserNameOrPassword,
 };
 
 function printUndefined(res, err) {

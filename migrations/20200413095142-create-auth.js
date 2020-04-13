@@ -10,19 +10,22 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       userName: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
         unique: true,
       },
       passwordHash: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       salt: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       role: {
         type: Sequelize.INTEGER,
+      },
+      sessionId: {
+        type: Sequelize.STRING(4),
       },
       createdAt: {
         allowNull: false,

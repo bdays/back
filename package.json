@@ -12,7 +12,8 @@
     "prettier": "prettier --write **/**.js",
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed": "sequelize-cli db:seed:all --debug",
-    "db:migrate:undo": "sequelize-cli db:migrate:undo"
+    "db:seed:undo:all": "sequelize-cli db:seed:undo:all --debug",
+    "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all"
   },
   "author": "",
   "license": "MIT",

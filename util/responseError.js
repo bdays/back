@@ -64,11 +64,16 @@ const errorList = {
     code: 12,
     message: 'Undefined error',
   },
+  incorrectUserNameOrPassword: {
+    status: statusCodes.BAD_REQUEST,
+    code: 13,
+    message: 'Incorrect userName or password',
+  },
 };
 
 function buildResponse({ code, message, status }, data) {
   return {
-    status: status,
+    status,
     body: {
       err: {
         code,
@@ -126,6 +131,10 @@ class ResponseError {
 
   undefinedError(data = {}) {
     return buildResponse(errorList.undefinedError, data);
+  }
+
+  incorrectUserNameOrPassword(data = {}) {
+    return buildResponse(errorList.incorrectUserNameOrPassword, data);
   }
 }
 
