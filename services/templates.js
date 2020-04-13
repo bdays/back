@@ -128,7 +128,8 @@ async function getByIdBasicData(id) {
 }
 
 async function getAll(args = {}) {
-  return await asyncWrapper(TemplateModel.findAll({ ...args }), new CustomError().query());
+  const all = await asyncWrapper(TemplateModel.findAll({ ...args }), new CustomError().query());
+  return all;
 }
 
 async function getAllList() {
