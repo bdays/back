@@ -27,6 +27,10 @@ class CustomError extends Error {
     return getError('error delete', str);
   }
 
+  save(str) {
+    return getError('error save', str);
+  }
+
   update(str) {
     return getError('error update', str);
   }

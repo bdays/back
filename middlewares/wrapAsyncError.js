@@ -1,16 +1,24 @@
 const CustomError = require('../util/customError');
 const responseError = require('../util/responseError');
+const { getAllMethodsClass } = require('../util/getAllFuncs');
 
-const errorMessages = {
-  [JSON.parse(new CustomError().create().message).type]: responseError.create,
-  [JSON.parse(new CustomError().query().message).type]: responseError.query,
-  [JSON.parse(new CustomError().delete().message).type]: responseError.delete,
-  [JSON.parse(new CustomError().update().message).type]: responseError.update,
-  [JSON.parse(new CustomError().timeout().message).type]: responseError.timeout,
-  [JSON.parse(new CustomError().notModify().message).type]: responseError.notModify,
-  [JSON.parse(new CustomError().notFound().message).type]: responseError.notFound,
-  [JSON.parse(new CustomError().incorrectUserNameOrPassword().message).type]: responseError.incorrectUserNameOrPassword,
-};
+const errorMessages = {};
+
+{
+  const wrappedErrors = [];
+
+  getAllMethodsClass(responseError).forEach((methodName) => {
+    try {
+      wrappedErrors.push(methodName);
+      errorMessages[JSON.parse(new CustomError()[methodName]().message).type] = responseError[methodName];
+    } catch (e) {
+      console.warn('Error wrap method - ', methodName);
+    }
+  });
+  console.log('\nSuccess wrapped errors: ');
+  wrappedErrors.forEach((methodName) => console.log(methodName));
+  console.log('\n');
+}
 
 function printUndefined(res, err) {
   const undefinedError = responseError.undefinedError({ err: err.toString() });
