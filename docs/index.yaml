@@ -1,22 +1,25 @@
 openapi: 3.0.0
 info:
-  title: "API"
-  version: "1.0.0"
+  title: 'API'
+  version: '1.0.0'
   description:
-    $ref: "errors.yaml#/Description"
+    $ref: 'errors.yaml#/Description'
 tags:
+  - name: Auth
   - name: Bdays
   - name: Templates
     description: |
       Для формирования __blocks и attachments__ используйте https://api.slack.com/tools/block-kit-builder
 paths:
-  "/bdays":
-    $ref: "bdays.yaml#/More"
-  "/bdays/{id}":
-    $ref: "bdays.yaml#/One"
-  "/templates":
-    $ref: "templates.yaml#/CreateOrGetAllTemplate"
-  "/templates/{templateId}":
-    $ref: "templates.yaml#/GetOrUpdateOrDeleteTemplate"
-  "/templates/{templateId}/{bdayId}":
-    $ref: "templates.yaml#/PrepareTemplate"
+  '/auth/login':
+    $ref: 'auth.yaml#/Login'
+  '/bdays':
+    $ref: 'bdays.yaml#/More'
+  '/bdays/{id}':
+    $ref: 'bdays.yaml#/One'
+  '/templates':
+    $ref: 'templates.yaml#/CreateOrGetAllTemplate'
+  '/templates/{templateId}':
+    $ref: 'templates.yaml#/GetOrUpdateOrDeleteTemplate'
+  '/templates/{templateId}/{bdayId}':
+    $ref: 'templates.yaml#/PrepareTemplate'

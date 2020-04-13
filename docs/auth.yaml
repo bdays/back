@@ -1,0 +1,46 @@
+Login:
+  post:
+    tags:
+      - Auth
+    summary: Авторизация
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - userName
+              - password
+            properties:
+              userName:
+                type: string
+                description: |
+                  `[a-zA-Z0-9]` len 1-256
+                example: admin
+              password:
+                type: string
+                description: |
+                  len 8-512
+                example: adminadmin
+    responses:
+      200:
+        description: |
+          **Возвращаемые коды ошибок:** `1`, `13`
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - token
+                  properties:
+                    token:
+                      type: string
+                      description: |
+                        Передавать в Header: 
+                          
+                        Authorization: `Bearer {token}`

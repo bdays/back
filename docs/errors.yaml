@@ -33,6 +33,14 @@ Description: |
 
   `9` - Error timeout **(500)**
 
+  `10` - Not modify **(500)**
+
+  `11` - Not found **(500)**
+
+  `12` - Undefined error **(500)**
+
+  `13` - Incorrect userName or password **(400)**
+
 
   ***Список строчных форматов времени:***
 
