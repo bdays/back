@@ -37,7 +37,13 @@ Login:
                   type: object
                   required:
                     - token
+                    - role
+                    - userId
                   properties:
+                    userId:
+                      type: number
+                    role:
+                      type: number
                     token:
                       type: string
                       description: |

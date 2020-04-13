@@ -6,6 +6,12 @@ info:
     $ref: 'errors.yaml#/Description'
 tags:
   - name: Auth
+    description: |
+      Список ролей:
+
+      `1` - Администратор
+
+      `2` - Пользователь (не может создавать других пользователей)
   - name: Bdays
   - name: Templates
     description: |
