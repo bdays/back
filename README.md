@@ -22,3 +22,7 @@ npm run prettier
 ```shell script
 docker exec -it bday-back npm run db:migrate
 ```
+
+```shell script
+docker exec -it bday-back npm run db:seed
+```
