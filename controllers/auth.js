@@ -19,6 +19,7 @@ class Auth {
     if (!isPasswordValid) throw new CustomError().incorrectUserNameOrPassword();
 
     responseSuccess.query(res, {
+      userName,
       userId: userInfo.id,
       role: userInfo.role,
       token: jwt.generateToken(userInfo.id, userInfo.role, userInfo.sessionId),

@@ -39,7 +39,10 @@ Login:
                     - token
                     - role
                     - userId
+                    - userName
                   properties:
+                    userName:
+                      type: string
                     userId:
                       type: number
                     role:
