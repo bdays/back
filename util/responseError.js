@@ -69,6 +69,11 @@ const errorList = {
     code: 13,
     message: 'Incorrect userName or password',
   },
+  unauthorized: {
+    status: statusCodes.BAD_REQUEST,
+    code: 14,
+    message: 'Unauthorized',
+  },
 };
 
 function buildResponse({ code, message, status }, data) {
@@ -135,6 +140,10 @@ class ResponseError {
 
   incorrectUserNameOrPassword(data = {}) {
     return buildResponse(errorList.incorrectUserNameOrPassword, data);
+  }
+
+  unauthorized(data = {}) {
+    return buildResponse(errorList.unauthorized, data);
   }
 }
 

@@ -3,6 +3,7 @@ const Joi = require('@hapi/joi');
 const validate = require('../middlewares/validate');
 const TemplateController = require('../controllers/templates');
 const wrapAsyncError = require('../middlewares/wrapAsyncError');
+const checkAuth = require('../middlewares/checkAuth');
 
 const body = Joi.object({
   title: Joi.string().required(),
@@ -29,6 +30,8 @@ const getParams = Joi.object({
     .rule({ message: '"{{#label}}" must be a valid templateId' })
     .required(),
 });
+
+router.use(checkAuth());
 
 router.post('/', validate.body(body), wrapAsyncError(TemplateController.create));
 router.get('/', wrapAsyncError(TemplateController.getAll));

@@ -14,9 +14,10 @@ function getTimeTokenDeath(unixStart) {
   return unixStart + 86400; // 1 DAY
 }
 
+const sHeader = JSON.stringify({ alg: 'HS512', typ: 'JWT' });
+
 function generateToken(userId, role, sessionId) {
   // Header
-  const sHeader = JSON.stringify({ alg: 'HS512', typ: 'JWT' });
   // Payload
   const oPayload = {};
   const tNow = rs.jws.IntDate.get('now');
@@ -34,8 +35,17 @@ function generateToken(userId, role, sessionId) {
   return rs.jws.JWS.sign('HS512', sHeader, sPayload, rs.stob64(secret));
 }
 
+function verifyToken(token) {
+  try {
+    const is = rs.jws.JWS.verifyJWT(token, rs.stob64(secret), { alg: ['HS512'] });
+    return is;
+  } catch (e) {
+    return false;
+  }
+}
+
 function generateSessionId() {
   return cryptoRandomString({ length: 4 });
 }
 
-module.exports = { generateToken, generateSessionId, getSession, getTimeTokenDeath };
+module.exports = { generateToken, generateSessionId, getSession, getTimeTokenDeath, verifyToken };

@@ -50,6 +50,10 @@ class CustomError extends Error {
   incorrectUserNameOrPassword(str) {
     return getError('incorrect user name or password', str);
   }
+
+  unauthorized(str) {
+    return getError('unauthorized', str);
+  }
 }
 
 module.exports = CustomError;

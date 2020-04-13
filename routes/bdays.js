@@ -3,6 +3,7 @@ const Joi = require('@hapi/joi');
 const validate = require('../middlewares/validate');
 const BdayController = require('../controllers/bdays');
 const wrapAsyncError = require('../middlewares/wrapAsyncError');
+const checkAuth = require('../middlewares/checkAuth');
 
 const body = Joi.object({
   firstName: Joi.string()
@@ -31,6 +32,9 @@ const id = Joi.object({
 });
 
 router.get('/', wrapAsyncError(BdayController.getAll));
+
+router.use(checkAuth());
+
 router.get('/:id', validate.params(id), wrapAsyncError(BdayController.getById));
 router.post('/', validate.body(body), wrapAsyncError(BdayController.create));
 router.delete('/:id', validate.params(id), wrapAsyncError(BdayController.deleteRecord));

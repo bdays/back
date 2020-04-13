@@ -41,6 +41,8 @@ Description: |
 
   `13` - Incorrect userName or password **(400)**
 
+  `14` - Unauthorized **(400)**
+
 
   ***Список строчных форматов времени:***
 
