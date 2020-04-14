@@ -53,11 +53,11 @@ class Auth {
   }
 
   async createNewUser(req, res) {
-    const { userId, role } = res.locals.userInfo;
+    const { id, role } = res.locals.userInfo;
 
     if (role !== 1) throw new CustomError().notEnoughRights();
 
-    const record = await AuthService.createNewUser(userId, req.body.userName, req.body.role);
+    const record = await AuthService.createNewUser(id, req.body.userName, req.body.role);
 
     responseSuccess.created(res, {
       id: record.id,

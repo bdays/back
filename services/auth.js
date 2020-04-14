@@ -54,6 +54,7 @@ async function createNewUser(creatorUserId, userName, role) {
 
   const record = await asyncWrapper(
     AuthModel.create({
+      creatorId: creatorUserId,
       userName,
       role,
       passwordHash,

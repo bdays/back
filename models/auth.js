@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
   const Auth = sequelize.define(
     'Auth',
     {
+      creatorId: DataTypes.INTEGER,
       userName: DataTypes.TEXT,
       passwordHash: DataTypes.TEXT,
       salt: DataTypes.TEXT,
