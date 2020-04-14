@@ -1,5 +1,8 @@
 const responseError = require('../util/responseError');
 const jwt = require('../util/jwt');
+const AuthService = require('../services/auth');
+const CustomError = require('../util/customError');
+const asyncWrapper = require('../util/asyncWrapper');
 
 function unauthorized(res) {
   const response = responseError.unauthorized();
@@ -7,7 +10,7 @@ function unauthorized(res) {
 }
 
 function checkAuth() {
-  return (req, res, next) => {
+  return async (req, res, next) => {
     const headerValue = req.header('Authorization');
     const splitHeaderValue = headerValue && headerValue.length ? headerValue.split(' ') : [];
 
@@ -17,11 +20,25 @@ function checkAuth() {
       splitHeaderValue[0] === 'Bearer' &&
       jwt.verifyToken(splitHeaderValue[1])
     ) {
-      res.locals.jwt_claims = jwt.getPayload(splitHeaderValue[1]);
-      next();
-    } else {
-      unauthorized(res);
+      try {
+        res.locals.jwt_claims = jwt.getPayload(splitHeaderValue[1]);
+        const { userId, session: tokenSession } = res.locals.jwt_claims.data;
+        const userInfo = await asyncWrapper(AuthService.getUserInfoById(userId), new CustomError().query());
+        res.locals.userInfo = userInfo;
+
+        const currentSession = jwt.getSession(userId, userInfo.sessionId);
+
+        if (tokenSession === currentSession) {
+          next();
+          return;
+        }
+        unauthorized(res);
+      } catch (e) {
+        unauthorized(res);
+      }
+      return;
     }
+    unauthorized(res);
   };
 }
 

@@ -37,6 +37,20 @@ class Auth {
       role: userInfo.role,
     });
   }
+
+  async changePassword(req, res) {
+    const { userId } = res.locals.jwt_claims.data;
+    const { password, currentPassword } = req.body;
+
+    const { userName, id, role, sessionId } = await AuthService.changePasswordById(userId, currentPassword, password);
+
+    responseSuccess.update(res, {
+      userName,
+      userId: id,
+      role,
+      token: jwt.generateToken(id, role, sessionId),
+    });
+  }
 }
 
 module.exports = new Auth();

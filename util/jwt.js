@@ -4,8 +4,8 @@ const CryptoJS = require('crypto-js');
 
 const secret = cryptoRandomString({ length: 1024 });
 
-function getSession(userId, role, sessionId) {
-  const hash = CryptoJS.HmacMD5(`${userId}+${role}`, sessionId);
+function getSession(userId, sessionId) {
+  const hash = CryptoJS.HmacMD5(userId, sessionId);
   const session = hash.toString(CryptoJS.enc.Hex);
   return session;
 }
@@ -28,7 +28,7 @@ function generateToken(userId, role, sessionId) {
   oPayload.data = {
     userId,
     role,
-    session: getSession(userId, role, sessionId),
+    session: getSession(userId, sessionId),
   };
   const sPayload = JSON.stringify(oPayload);
 
@@ -45,7 +45,7 @@ function verifyToken(token) {
 }
 
 function generateSessionId() {
-  return cryptoRandomString({ length: 4 });
+  return cryptoRandomString({ length: 8 });
 }
 
 function getPayload(token) {

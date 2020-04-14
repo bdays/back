@@ -1,6 +1,8 @@
 const models = require('../models');
 const asyncWrapper = require('../util/asyncWrapper');
 const CustomError = require('../util/customError');
+const argon2 = require('../util/argon2');
+const jwt = require('../util/jwt');
 
 const AuthModel = models.Auth;
 
@@ -16,7 +18,32 @@ async function getUserInfoById(id) {
   return result.dataValues;
 }
 
+async function changePasswordById(id, currentPassword, newPassword) {
+  const record = await asyncWrapper(AuthModel.findOne({ where: { id } }), new CustomError().query());
+
+  const isValidCurrentPassword = await argon2.verify(record.passwordHash, currentPassword, record.salt);
+
+  if (!isValidCurrentPassword) throw new CustomError().incorrectUserNameOrPassword();
+
+  if (currentPassword === newPassword) throw new CustomError().notModify();
+
+  const salt = argon2.generateSecret();
+  const hash = await argon2.hash(newPassword, salt);
+
+  const updatedRecord = await asyncWrapper(
+    record.update({
+      passwordHash: hash,
+      sessionId: jwt.generateSessionId(),
+      salt,
+    }),
+    new CustomError().update(),
+  );
+
+  return updatedRecord.dataValues;
+}
+
 module.exports = {
   getUserInfo,
   getUserInfoById,
+  changePasswordById,
 };
