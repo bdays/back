@@ -10,6 +10,13 @@ async function getUserInfo(userName) {
   return result.dataValues;
 }
 
+async function getUserInfoById(id) {
+  const result = await asyncWrapper(AuthModel.findOne({ where: { id } }), new CustomError().query());
+
+  return result.dataValues;
+}
+
 module.exports = {
   getUserInfo,
+  getUserInfoById,
 };

@@ -3,6 +3,7 @@ const Joi = require('@hapi/joi');
 const validate = require('../middlewares/validate');
 const AuthController = require('../controllers/auth');
 const wrapAsyncError = require('../middlewares/wrapAsyncError');
+const checkAuth = require('../middlewares/checkAuth');
 
 const body = Joi.object({
   userName: Joi.string()
@@ -19,5 +20,9 @@ const body = Joi.object({
 });
 
 router.post('/login', validate.body(body), wrapAsyncError(AuthController.login));
+
+router.use(checkAuth());
+
+router.get('/info', wrapAsyncError(AuthController.getUserInfo));
 
 module.exports = router;

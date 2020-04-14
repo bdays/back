@@ -48,4 +48,8 @@ function generateSessionId() {
   return cryptoRandomString({ length: 4 });
 }
 
-module.exports = { generateToken, generateSessionId, getSession, getTimeTokenDeath, verifyToken };
+function getPayload(token) {
+  return rs.jws.JWS.readSafeJSONString(rs.b64utoutf8(token.split('.')[1]));
+}
+
+module.exports = { generateToken, generateSessionId, getSession, getTimeTokenDeath, verifyToken, getPayload };

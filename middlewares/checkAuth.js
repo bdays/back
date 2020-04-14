@@ -17,6 +17,7 @@ function checkAuth() {
       splitHeaderValue[0] === 'Bearer' &&
       jwt.verifyToken(splitHeaderValue[1])
     ) {
+      res.locals.jwt_claims = jwt.getPayload(splitHeaderValue[1]);
       next();
     } else {
       unauthorized(res);

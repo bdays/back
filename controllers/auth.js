@@ -25,6 +25,18 @@ class Auth {
       token: jwt.generateToken(userInfo.id, userInfo.role, userInfo.sessionId),
     });
   }
+
+  async getUserInfo(req, res) {
+    const { userId } = res.locals.jwt_claims.data;
+
+    const userInfo = await asyncWrapper(AuthService.getUserInfoById(userId), new CustomError().query());
+
+    responseSuccess.query(res, {
+      userName: userInfo.userName,
+      userId: userInfo.id,
+      role: userInfo.role,
+    });
+  }
 }
 
 module.exports = new Auth();
