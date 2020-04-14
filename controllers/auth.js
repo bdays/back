@@ -39,7 +39,7 @@ class Auth {
   }
 
   async changePassword(req, res) {
-    const { userId } = res.locals.jwt_claims.data;
+    const { id: userId } = res.locals.userInfo;
     const { password, currentPassword } = req.body;
 
     const { userName, id, role, sessionId } = await AuthService.changePasswordById(userId, currentPassword, password);
