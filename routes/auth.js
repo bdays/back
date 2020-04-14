@@ -55,4 +55,6 @@ router.post(
   wrapAsyncError(AuthController.createNewUser),
 );
 
+router.get('/list_users', wrapAsyncError(AuthController.getListUsers));
+
 module.exports = router;

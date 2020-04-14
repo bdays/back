@@ -66,6 +66,16 @@ class Auth {
       password: record.password,
     });
   }
+
+  async getListUsers(req, res) {
+    const { role } = res.locals.userInfo;
+
+    if (role !== 1) throw new CustomError().notEnoughRights();
+
+    const records = await AuthService.getListAllUsers();
+
+    responseSuccess.created(res, records);
+  }
 }
 
 module.exports = new Auth();

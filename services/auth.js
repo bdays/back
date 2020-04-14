@@ -4,6 +4,7 @@ const asyncWrapper = require('../util/asyncWrapper');
 const CustomError = require('../util/customError');
 const argon2 = require('../util/argon2');
 const jwt = require('../util/jwt');
+const sql = require('../sql');
 
 const AuthModel = models.Auth;
 
@@ -67,9 +68,29 @@ async function createNewUser(creatorUserId, userName, role) {
   return { ...record.dataValues, password };
 }
 
+async function getListAllUsers() {
+  const finded = await asyncWrapper(
+    models.sequelize.query(sql.getListUsers, { type: models.Sequelize.QueryTypes.SELECT }),
+    new CustomError().query(),
+  );
+
+  return {
+    arr: finded.map(({ id, creatorId, creatorUserName, userName, role, createdAt }) => ({
+      id,
+      creatorUserName,
+      creatorId,
+      userName,
+      role,
+      createdAt,
+    })),
+    arr2: finded,
+  };
+}
+
 module.exports = {
   getUserInfo,
   getUserInfoById,
   changePasswordById,
   createNewUser,
+  getListAllUsers,
 };
