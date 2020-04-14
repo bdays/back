@@ -51,6 +51,21 @@ class Auth {
       token: jwt.generateToken(id, role, sessionId),
     });
   }
+
+  async createNewUser(req, res) {
+    const { userId, role } = res.locals.userInfo;
+
+    if (role !== 1) throw new CustomError().notEnoughRights();
+
+    const record = await AuthService.createNewUser(userId, req.body.userName, req.body.role);
+
+    responseSuccess.created(res, {
+      id: record.id,
+      userName: record.userName,
+      role: record.role,
+      password: record.password,
+    });
+  }
 }
 
 module.exports = new Auth();

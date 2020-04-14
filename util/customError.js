@@ -54,6 +54,14 @@ class CustomError extends Error {
   unauthorized(str) {
     return getError('unauthorized', str);
   }
+
+  userAlreadyCreated(str) {
+    return getError('user already created', str);
+  }
+
+  notEnoughRights(str) {
+    return getError('not enough rights', str);
+  }
 }
 
 module.exports = CustomError;

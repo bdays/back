@@ -45,7 +45,7 @@ function verifyToken(token) {
 }
 
 function generateSessionId() {
-  return cryptoRandomString({ length: 8 });
+  return cryptoRandomString({ length: 4 });
 }
 
 function getPayload(token) {

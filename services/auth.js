@@ -1,3 +1,4 @@
+const cryptoRandomString = require('crypto-random-string');
 const models = require('../models');
 const asyncWrapper = require('../util/asyncWrapper');
 const CustomError = require('../util/customError');
@@ -42,8 +43,32 @@ async function changePasswordById(id, currentPassword, newPassword) {
   return updatedRecord.dataValues;
 }
 
+async function createNewUser(creatorUserId, userName, role) {
+  const finded = await asyncWrapper(AuthModel.findOne({ where: { userName } }), new CustomError().query());
+
+  if (finded) throw new CustomError().userAlreadyCreated();
+
+  const password = cryptoRandomString({ length: 16 });
+  const salt = argon2.generateSecret();
+  const passwordHash = await argon2.hash(password, salt);
+
+  const record = await asyncWrapper(
+    AuthModel.create({
+      userName,
+      role,
+      passwordHash,
+      salt,
+      sessionId: jwt.generateSessionId(),
+    }),
+    new CustomError().create(),
+  );
+
+  return { ...record.dataValues, password };
+}
+
 module.exports = {
   getUserInfo,
   getUserInfoById,
   changePasswordById,
+  createNewUser,
 };

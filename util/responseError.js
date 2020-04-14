@@ -74,6 +74,16 @@ const errorList = {
     code: 14,
     message: 'Unauthorized',
   },
+  userAlreadyCreated: {
+    status: statusCodes.BAD_REQUEST,
+    code: 15,
+    message: 'User Already Created',
+  },
+  notEnoughRights: {
+    status: statusCodes.BAD_REQUEST,
+    code: 16,
+    message: 'Not Enough Rights',
+  },
 };
 
 function buildResponse({ code, message, status }, data) {
@@ -144,6 +154,14 @@ class ResponseError {
 
   unauthorized(data = {}) {
     return buildResponse(errorList.unauthorized, data);
+  }
+
+  userAlreadyCreated(data = {}) {
+    return buildResponse(errorList.userAlreadyCreated, data);
+  }
+
+  notEnoughRights(data = {}) {
+    return buildResponse(errorList.notEnoughRights, data);
   }
 }
 

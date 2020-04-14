@@ -13,15 +13,21 @@ const checkPassword = Joi.string()
   })
   .required();
 
-const body = Joi.object({
-  userName: Joi.string()
-    .pattern(new RegExp('^[a-zA-Z0-9]{1,256}$'))
-    .rule({ message: '"{{#label}}" must be a valid userName ^[a-zA-Z0-9]$  len 1-256' })
-    .required(),
-  password: checkPassword,
-});
+const checkUserName = Joi.string()
+  .pattern(new RegExp('^[a-zA-Z0-9]{1,256}$'))
+  .rule({ message: '"{{#label}}" must be a valid userName ^[a-zA-Z0-9]$  len 1-256' })
+  .required();
 
-router.post('/login', validate.body(body), wrapAsyncError(AuthController.login));
+router.post(
+  '/login',
+  validate.body(
+    Joi.object({
+      userName: checkUserName,
+      password: checkPassword,
+    }),
+  ),
+  wrapAsyncError(AuthController.login),
+);
 
 router.use(checkAuth());
 
@@ -31,6 +37,22 @@ router.put(
   '/change_password',
   validate.body(Joi.object({ currentPassword: checkPassword, password: checkPassword })),
   wrapAsyncError(AuthController.changePassword),
+);
+
+router.post(
+  '/create_new_user',
+  validate.body(
+    Joi.object({
+      userName: checkUserName,
+      role: Joi.number()
+        .required()
+        .strict()
+        .$.integer()
+        .min(1)
+        .max(2),
+    }),
+  ),
+  wrapAsyncError(AuthController.createNewUser),
 );
 
 module.exports = router;
