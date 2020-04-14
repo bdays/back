@@ -74,17 +74,7 @@ async function getListAllUsers() {
     new CustomError().query(),
   );
 
-  return {
-    arr: finded.map(({ id, creatorId, creatorUserName, userName, role, createdAt }) => ({
-      id,
-      creatorUserName,
-      creatorId,
-      userName,
-      role,
-      createdAt,
-    })),
-    arr2: finded,
-  };
+  return finded;
 }
 
 module.exports = {
