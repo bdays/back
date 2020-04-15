@@ -84,6 +84,11 @@ const errorList = {
     code: 16,
     message: 'Not Enough Rights',
   },
+  postMessage: {
+    status: statusCodes.BAD_REQUEST,
+    code: 17,
+    message: 'Post Message',
+  },
 };
 
 function buildResponse({ code, message, status }, data) {
@@ -162,6 +167,10 @@ class ResponseError {
 
   notEnoughRights(data = {}) {
     return buildResponse(errorList.notEnoughRights, data);
+  }
+
+  postMessage(data = {}) {
+    return buildResponse(errorList.postMessage, data);
   }
 }
 

@@ -1,8 +1,9 @@
 const rs = require('jsrsasign');
+require('dotenv');
 const cryptoRandomString = require('crypto-random-string');
 const CryptoJS = require('crypto-js');
 
-const secret = cryptoRandomString({ length: 1024 });
+const secret = process.env.NODE_ENV === 'development' ? 'super_secret' : cryptoRandomString({ length: 1024 });
 
 function getSession(userId, sessionId) {
   const hash = CryptoJS.HmacMD5(userId, sessionId);
@@ -11,7 +12,7 @@ function getSession(userId, sessionId) {
 }
 
 function getTimeTokenDeath(unixStart) {
-  return unixStart + 86400; // 1 DAY
+  return unixStart + 86400 * 30; // 30 DAYS
 }
 
 const sHeader = JSON.stringify({ alg: 'HS512', typ: 'JWT' });

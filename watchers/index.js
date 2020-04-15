@@ -1,7 +1,10 @@
 const axios = require('axios');
+require('dotenv');
 const sql = require('../sql');
 const { BdaySchedule, Bday } = require('../models');
 const TemplatesService = require('../services/templates');
+
+const slackBotUrl = process.env.SLACK_BOT_URL || '';
 
 function checkTimeAndSendGreeting() {
   const run = () => {
@@ -14,7 +17,7 @@ function checkTimeAndSendGreeting() {
               TemplatesService.getMatched(bday.data.templateId, record.dataValues.bdayId).then(({ text, blocks }) => {
                 if (text && blocks) {
                   axios
-                    .post('https://bday.shibanet0.tech/system/message', {
+                    .post(`${slackBotUrl}/system/message`, {
                       channel: bday.data.targetChannelId,
                       text,
                       blocks,

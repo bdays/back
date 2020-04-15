@@ -20,6 +20,10 @@ class ResponseSuccess {
   update(res, data = {}) {
     sendResponse(res, statusCodes.SUCCESS, data);
   }
+
+  postMessage(res, data = {}) {
+    sendResponse(res, statusCodes.SUCCESS, data);
+  }
 }
 
 module.exports = new ResponseSuccess();

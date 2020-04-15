@@ -38,6 +38,8 @@ sequelize
 
         const port = process.env.PORT || 3001;
 
+        console.log('SLACK_BOT_URL: ', process.env.SLACK_BOT_URL || '');
+
         app.use(require('./routes'));
 
         app.listen(port, () => {

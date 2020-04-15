@@ -62,6 +62,10 @@ class CustomError extends Error {
   notEnoughRights(str) {
     return getError('not enough rights', str);
   }
+
+  postMessage(str) {
+    return getError('post message', str);
+  }
 }
 
 module.exports = CustomError;
