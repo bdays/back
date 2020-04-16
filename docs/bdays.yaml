@@ -3,6 +3,8 @@ More:
     tags:
       - Bdays
     summary: Получить список всех дней рождений по месяцам
+    description: |
+      **Не нуждается в авторизации**
     responses:
       400:
         description: |
@@ -88,6 +90,10 @@ More:
     tags:
       - Bdays
     summary: Добавить новый день рождения
+    description: |
+      В поле **data** зарезирвированы поля:
+        `templateId` - идентификатор шаблона, который будет использоваться для отправки сообщения в slack
+        `targetChannelId` - идентификатор канала, который будет использоваться для отправки сообщения в slack
     requestBody:
       content:
         application/json:

@@ -1,0 +1,66 @@
+ChannelList:
+  get:
+    tags:
+      - Slack
+    summary: Получение списка каналов в Slack
+    responses:
+      400:
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - name
+                      - name_normalized
+                      - creator
+                      - members
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      name_normalized:
+                        type: string
+                      creator:
+                        type: string
+                      members:
+                        type: array
+                        items:
+                          type: string
+
+TestMessage:
+  post:
+    tags:
+      - Slack
+    summary: Отправка тестового сообщения в канал
+    description: |
+      **(доступно только если бот добавлен в канал)**
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - channelId
+            properties:
+              channelId:
+                type: string
+    responses:
+      400:
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"

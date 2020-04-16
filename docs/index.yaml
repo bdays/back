@@ -16,9 +16,18 @@ tags:
   - name: Templates
     description: |
       Для формирования __blocks и attachments__ используйте https://api.slack.com/tools/block-kit-builder
+  - name: Slack
 paths:
   '/auth/login':
     $ref: 'auth.yaml#/Login'
+  '/auth/change_password':
+    $ref: 'auth.yaml#/ChangePassword'
+  '/auth/create_user':
+    $ref: 'auth.yaml#/CreateNewUser'
+  '/auth/info':
+    $ref: 'auth.yaml#/Info'
+  '/auth/list_users':
+    $ref: 'auth.yaml#/ListUsers'
   '/bdays':
     $ref: 'bdays.yaml#/More'
   '/bdays/{id}':
@@ -29,3 +38,7 @@ paths:
     $ref: 'templates.yaml#/GetOrUpdateOrDeleteTemplate'
   '/templates/{templateId}/{bdayId}':
     $ref: 'templates.yaml#/PrepareTemplate'
+  '/slack/channel_list':
+    $ref: 'slack.yaml#/ChannelList'
+  '/slack/test_message':
+    $ref: 'slack.yaml#/TestMessage'

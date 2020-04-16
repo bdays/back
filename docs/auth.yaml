@@ -3,6 +3,8 @@ Login:
     tags:
       - Auth
     summary: Авторизация
+    description: |
+      **Не нуждается в авторизации**
     requestBody:
       content:
         application/json:
@@ -23,9 +25,14 @@ Login:
                   len 8-512
                 example: adminadmin
     responses:
-      200:
+      400:
         description: |
           **Возвращаемые коды ошибок:** `1`, `13`
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"
+      200:
         content:
           application/json:
             schema:
@@ -53,3 +60,182 @@ Login:
                         Передавать в Header: 
                           
                         Authorization: `Bearer {token}`
+
+ChangePassword:
+  put:
+    tags:
+      - Auth
+    summary: Смена пароля
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - currentPassword
+              - password
+            properties:
+              currentPassword:
+                type: string
+              password:
+                type: string
+    responses:
+      400:
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - userName
+                    - userId
+                    - role
+                    - token
+                  properties:
+                    userName:
+                      type: string
+                    userId:
+                      type: number
+                    role:
+                      type: number
+                    token:
+                      type: string
+
+Info:
+  get:
+    tags:
+      - Auth
+    summary: Получение информации о пользоваетеле
+    responses:
+      400:
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - userName
+                    - userId
+                    - role
+                  properties:
+                    userName:
+                      type: string
+                    userId:
+                      type: number
+                    role:
+                      type: number
+
+ListUsers:
+  get:
+    tags:
+      - Auth
+    summary: Получение списка пользователей
+    description: |
+      Может быть вызван только пользователем с `role = 1`
+    responses:
+      400:
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - creatorId
+                      - creatorUserName
+                      - userName
+                      - role
+                      - createdAt
+                    properties:
+                      id:
+                        type: number
+                      creatorId:
+                        type: number
+                      creatorUserName:
+                        type: string
+                      userName:
+                        type: string
+                      role:
+                        type: number
+                      createdAt:
+                        type: string
+
+CreateNewUser:
+  post:
+    tags:
+      - Auth
+    summary: Создание нового пользователя
+    description: |
+      Может быть вызван только пользователем с `role = 1`
+    requestBody:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - userName
+              - role
+            properties:
+              userName:
+                type: string
+              role:
+                type: number
+    responses:
+      400:
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: object
+                  required:
+                    - id
+                    - userName
+                    - role
+                    - password
+                  properties:
+                    userName:
+                      type: string
+                    password:
+                      type: string
+                    id:
+                      type: number
+                    role:
+                      type: number
