@@ -43,6 +43,12 @@ Description: |
 
   `14` - Unauthorized **(400)**
 
+  `15` - User Already Created **(400)**
+
+  `16` - Not Enough Rights **(400)**
+
+  `17` - Post Message **(400)**
+
 
   ***Список строчных форматов времени:***
 
