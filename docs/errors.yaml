@@ -53,3 +53,5 @@ Description: |
   ***Список строчных форматов времени:***
 
   `DEFAULT_FORMAT` - DD/MM/YYYY
+
+  `ISO 8601` - yyyy-MM-dd'T'HH:mm:ss.SSSZ

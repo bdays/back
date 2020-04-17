@@ -35,8 +35,11 @@ router.get('/', wrapAsyncError(BdayController.getAll));
 
 router.use(checkAuth());
 
-router.get('/:id', validate.params(id), wrapAsyncError(BdayController.getById));
 router.post('/', validate.body(body), wrapAsyncError(BdayController.create));
+
+router.get('/schedule', wrapAsyncError(BdayController.getSchedule));
+
+router.get('/:id', validate.params(id), wrapAsyncError(BdayController.getById));
 router.delete('/:id', validate.params(id), wrapAsyncError(BdayController.deleteRecord));
 router.put('/:id', validate.params(id), validate.body(body), wrapAsyncError(BdayController.updateRecord));
 

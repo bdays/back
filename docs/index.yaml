@@ -30,6 +30,8 @@ paths:
     $ref: 'auth.yaml#/ListUsers'
   '/bdays':
     $ref: 'bdays.yaml#/More'
+  '/bdays/schedule':
+    $ref: 'bdays.yaml#/Schedule'
   '/bdays/{id}':
     $ref: 'bdays.yaml#/One'
   '/templates':

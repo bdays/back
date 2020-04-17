@@ -75,7 +75,8 @@ async function updateRecord(recordId, firstName, lastName, date, data) {
 }
 
 async function getById(id, args = {}) {
-  return await asyncWrapper(BdayModel.findOne({ where: { id }, ...args }), new CustomError().query());
+  const record = await asyncWrapper(BdayModel.findOne({ where: { id }, ...args }), new CustomError().query());
+  return record;
 }
 
 async function getByIdBasicData(id) {

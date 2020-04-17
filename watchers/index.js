@@ -1,38 +1,38 @@
 const axios = require('axios');
 require('dotenv');
 const sql = require('../sql');
-const { BdaySchedule, Bday } = require('../models');
-const TemplatesService = require('../services/templates');
+const BdayScheduleService = require('../services/schedule');
 
 const slackBotUrl = process.env.SLACK_BOT_URL || '';
 
+async function sendMessage(scheduleId, channel, text, blocks, attachments) {
+  try {
+    await axios.post(`${slackBotUrl}/system/message`, {
+      channel,
+      text,
+      blocks,
+      attachments,
+    });
+
+    BdayScheduleService.setCongratulate(scheduleId);
+  } catch (e) {
+    console.error('ERROR Send message in slack bot! scheduleId - ', scheduleId);
+  }
+}
+
 function checkTimeAndSendGreeting() {
-  const run = () => {
+  const run = async () => {
     const utcHours = new Date().getHours() + new Date().getTimezoneOffset() / 60;
-    if ((utcHours < 0 ? 24 + utcHours : utcHours) >= 10) {
-      BdaySchedule.findAll({ where: { isCongratulate: false } }).then((records) => {
-        records.forEach((record) => {
-          Bday.findOne({ where: { id: record.dataValues.bdayId } }).then((bday) => {
-            if (bday.data && bday.data.templateId && bday.data.targetChannelId) {
-              TemplatesService.getMatched(bday.data.templateId, record.dataValues.bdayId).then(({ text, blocks }) => {
-                if (text && blocks) {
-                  axios
-                    .post(`${slackBotUrl}/system/message`, {
-                      channel: bday.data.targetChannelId,
-                      text,
-                      blocks,
-                    })
-                    .then(() => {
-                      record.update({
-                        isCongratulate: true,
-                      });
-                    })
-                    .catch(() => console.error('ERROR Send message in slack bot!'));
-                }
-              });
-            }
-          });
-        });
+
+    const isCurrentHourMoreTen = (utcHours < 0 ? 24 + utcHours : utcHours) >= 10;
+
+    if (isCurrentHourMoreTen) {
+      const records = await BdayScheduleService.getScheduleTemplates();
+
+      records.forEach(async ({ id, targetChannelId, text, blocks, attachments }) => {
+        if (text && blocks && targetChannelId) {
+          sendMessage(id, targetChannelId, text, blocks, attachments);
+        }
       });
     }
   };

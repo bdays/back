@@ -2,6 +2,7 @@ const responseSuccess = require('../util/responseSuccess');
 const dateUtil = require('../util/date');
 const text = require('../util/text');
 const BdaysService = require('../services/bdays');
+const BdayScheduleService = require('../services/schedule');
 const CustomError = require('../util/customError');
 
 class Bdays {
@@ -57,6 +58,14 @@ class Bdays {
     delete reponseData.date;
 
     responseSuccess.created(res, reponseData);
+  }
+
+  async getSchedule(req, res) {
+    const { role } = res.locals.userInfo;
+
+    if (role !== 1) throw new CustomError().notEnoughRights();
+
+    responseSuccess.query(res, await BdayScheduleService.getAll());
   }
 }
 

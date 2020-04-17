@@ -1,3 +1,65 @@
+Schedule:
+  get:
+    tags:
+      - Bdays
+    summary: Получить список задач по отправке сообщений
+    description: |
+      Может быть вызван только пользователем с `role = 1`
+    responses:
+      400:
+        description: |
+          **Возвращаемые коды ошибок:** `6`
+        content:
+          application/json:
+            schema:
+              $ref: "errors.yaml#/Struct"
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - data
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - bdayId
+                      - firstName
+                      - lastName
+                      - isSetTemplateId
+                      - isSetTargetChannelId
+                      - isCongratulate
+                      - date
+                      - updatedAt
+                    properties:
+                      id:
+                        type: integer
+                      bdayId:
+                        type: integer
+                      firstName:
+                        type: string
+                      lastName:
+                        type: string
+                      isSetTemplateId:
+                        type: boolean
+                        description: Если задан templateId в объекте date
+                      isSetTargetChannelId:
+                        type: boolean
+                        description: Если задан targetChannelId в объекте date
+                      isCongratulate:
+                        type: boolean
+                        description: Если поздравление было отправлено
+                      date:
+                        type: string
+                        description: (формат ISO 8601)
+                      updatedAt:
+                        type: string
+                        description: Дата последнего обновления задачи (формат ISO 8601)
+
 More:
   get:
     tags:
