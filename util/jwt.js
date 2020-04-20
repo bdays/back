@@ -3,7 +3,7 @@ require('dotenv');
 const cryptoRandomString = require('crypto-random-string');
 const CryptoJS = require('crypto-js');
 
-const secret = process.env.NODE_ENV === 'development' ? 'super_secret' : cryptoRandomString({ length: 1024 });
+const secret = process.env.JWT_SECRET || '';
 
 function getSession(userId, sessionId) {
   const hash = CryptoJS.HmacMD5(userId, sessionId);
