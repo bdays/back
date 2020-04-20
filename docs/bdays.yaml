@@ -54,11 +54,11 @@ Schedule:
                         type: boolean
                         description: Если поздравление было отправлено
                       date:
-                        type: string
-                        description: (формат ISO 8601)
+                        type: integer
+                        description: (формат unix timestamp UTC)
                       updatedAt:
-                        type: string
-                        description: Дата последнего обновления задачи (формат ISO 8601)
+                        type: integer
+                        description: Дата последнего обновления задачи (формат unix timestamp UTC)
 
 More:
   get:
