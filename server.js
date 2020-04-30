@@ -42,6 +42,8 @@ sequelize
 
         app.use(require('./routes'));
 
+        app.use('/docs', express.static(`${__dirname}/docs/redoc-static.html`));
+
         app.listen(port, () => {
           console.log(`App listen on ${port}!`);
         });
